@@ -3,6 +3,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @theme inline {
   --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
 
@@ -34,12 +40,6 @@
   --color-heading: var(--heading);
   --color-glass-inset: var(--glass-inset);
   --color-glass-item: var(--glass-item);
-  --animate-float: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 
 :root {

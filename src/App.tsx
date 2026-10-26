@@ -17,7 +17,6 @@ export default function App() {
   const weather = useWeatherSearch()
   const history = useSearchHistory()
   const isLoading = weather.status === 'loading'
-  const handleToggleTheme = () => toggleTheme(theme === 'dark' ? 'light' : 'dark')
 
   /** Shared by the search form and the history "search again" buttons. */
   const runSearch = async (query: searchWeather) => {
@@ -43,7 +42,7 @@ export default function App() {
         <h1 className="sr-only">Today's Weather</h1>
 
         <div className="flex justify-end">
-          <ThemeToggle theme={theme} onToggle={handleToggleTheme} />
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
 
         <SearchBar onSearch={runSearch} isLoading={isLoading} />
@@ -52,10 +51,8 @@ export default function App() {
           {weather.error && <ErrorBanner key="error" message={weather.error} />}
         </AnimatePresence>
 
-        {/* Top margin leaves room for the weather illustration that overlaps the card */}
         <section aria-label="Current weather" className="relative z-0 mt-10 sm:mt-14">
           <GlassPanel className="px-5 pb-5 pt-6 sm:px-8 sm:pb-8 sm:pt-7">
-            {/* Only this region is live, so history changes aren't announced as weather updates */}
             <div
               aria-live="polite"
               aria-busy={isLoading}

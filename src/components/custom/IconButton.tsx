@@ -25,7 +25,7 @@ export function IconButton({ label, tone = 'round', type = 'button', className, 
       size="icon"
       aria-label={label}
       title={label}
-      className={cn('shrink-0 active:scale-90', TONES[tone], className)}
+      className={cn('shrink-0 overflow-hidden active:scale-90', TONES[tone], className)}
       {...rest}
     />
   )

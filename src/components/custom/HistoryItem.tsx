@@ -23,7 +23,7 @@ export function HistoryItem({ entry, onSearch, onDelete }: HistoryItemProps) {
     >
       <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between sm:gap-4">
         <p className="truncate text-sm sm:text-base">{location}</p>
-        <time dateTime={toIsoString(entry.searchTime)} className="text-[11px] text-muted-foreground sm:text-sm">
+        <time dateTime={toIsoString(entry.searchTime)} className="text-base sm:text-sm">
           {formatDateTime(entry.searchTime)}
         </time>
       </div>
