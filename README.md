@@ -24,7 +24,7 @@
      npm install
      ```
 
-  2. Create a `.env.local` file in the project root:
+  2. Create a `.env` file in the project root:
 
      ```
      VITE_OPENWEATHER_API_KEY=your_api_key_here
