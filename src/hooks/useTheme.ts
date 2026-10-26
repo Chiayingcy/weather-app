@@ -1,32 +1,48 @@
-import { flushSync } from "react-dom";
-import { useCallback, useEffect } from "react";
-import type { Point } from "@/lib/viewTransition";
-import { runCircularReveal } from "@/lib/viewTransition";
-import { useLocalStorage } from "./useLocalStorage";
+import { flushSync } from 'react-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { runThemeTransition } from '@/lib/viewTransition'
 
-export type Theme = "light" | "dark";
+export type Theme = 'light' | 'dark'
 
-const getSystemTheme = (): Theme => {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+function isTheme(value: unknown): value is Theme {
+    return value === 'light' || value === 'dark'
+}
+
+function getInitialTheme(): Theme {
+    try {
+        const storedTheme = localStorage.getItem('weather:theme') ?? localStorage.getItem('theme')
+        if (storedTheme !== null) {
+            const parsedTheme: unknown = JSON.parse(storedTheme)
+            if (isTheme(parsedTheme)) return parsedTheme
+        }
+    } catch {
+        // Fall back to the system preference when stored data is unavailable or invalid.
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+function applyThemeClass(theme: Theme) {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
 }
 
 export const useTheme = () => {
-    const [theme, setTheme] = useLocalStorage<Theme>("theme", getSystemTheme());
+    const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
     useEffect(() => {
-        document.documentElement.classList.toggle("dark", theme === "dark");
-    }, [theme]);
+        applyThemeClass(theme)
+        localStorage.setItem('weather:theme', JSON.stringify(theme))
+    }, [theme])
 
-    const toggleTheme = useCallback((origin?: Point) => {
-        const nextTheme = theme === "dark" ? "light" : "dark";
-
-        runCircularReveal(() => {
+    const toggleTheme = useCallback(() => {
+        const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark'
+        runThemeTransition(() => {
             flushSync(() => {
-                setTheme(nextTheme);
-                document.documentElement.classList.toggle("dark", nextTheme === "dark");
-            });
-        }, origin);
-    }, [setTheme, theme]);
+                setTheme(nextTheme)
+                applyThemeClass(nextTheme)
+            })
+        })
+    }, [theme])
 
-    return [theme, toggleTheme] as const;
+    return [theme, toggleTheme] as const
 }

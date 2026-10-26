@@ -7,7 +7,7 @@ import type { searchWeather } from '@/types/weather'
 import { WeatherSummary } from './components/custom/WeatherSummary'
 import { WeatherSkeleton } from './components/custom/WeatherSkeleton'
 import { ErrorBanner } from './components/custom/ErrorBanner'
-import { ThemeToggle } from './components/custom/ThemeToggle'
+import { ThemeSwitch } from './components/ThemeSwitch'
 import { SearchBar } from './components/custom/SearchBar'
 import { GlassPanel } from './components/custom/GlassPanel'
 import { SearchHistory } from './components/custom/SearchHistory'
@@ -18,13 +18,11 @@ export default function App() {
   const history = useSearchHistory()
   const isLoading = weather.status === 'loading'
 
-  /** Shared by the search form and the history "search again" buttons. */
   const runSearch = async (query: searchWeather) => {
     const report = await weather.searchWeather(query)
     if (report) history.addEntry(report)
   }
 
-  /** Chooses what the weather area shows: result, first-load skeleton, or empty prompt. */
   const renderWeather = () => {
     if (weather.data) return <WeatherSummary key={weather.data.searchTime} result={weather.data} />
     if (isLoading) return <WeatherSkeleton key="skeleton" />
@@ -36,14 +34,15 @@ export default function App() {
   }
 
   return (
-    // reducedMotion="user" disables transform animations when the OS "reduce motion" setting is on
     <MotionConfig reducedMotion="user">
-      <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col gap-3 px-4 pb-8 pt-6 sm:px-6 sm:pt-10">
-        <h1 className="sr-only">Today's Weather</h1>
+      <ThemeSwitch
+        theme={theme}
+        onToggle={toggleTheme}
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-50 shadow-lg lg:top-6 lg:right-6 lg:bottom-auto"
+      />
 
-        <div className="flex justify-end">
-          <ThemeToggle theme={theme} onToggle={toggleTheme} />
-        </div>
+      <main className="mx-auto flex min-h-dvh w-full max-w-2xl xl:max-w-4xl flex-col gap-3 px-4 pt-6 pb-24 sm:px-6 sm:pt-10 lg:pb-10">
+        <h1 className="sr-only">Today's Weather</h1>
 
         <SearchBar onSearch={runSearch} isLoading={isLoading} />
 
