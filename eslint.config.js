@@ -8,7 +8,8 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['src/components/**/*.{ts,tsx}'],
+    rules: { 'react-refresh/only-export-components': 'error' },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,

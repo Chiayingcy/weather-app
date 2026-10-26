@@ -1,1 +1,111 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* shadcn/ui tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* App-specific tokens */
+  --color-heading: var(--heading);
+  --color-glass-inset: var(--glass-inset);
+  --color-glass-item: var(--glass-item);
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+:root {
+  --radius: 1rem;
+
+  --background: #8d71d0;
+  --foreground: #000;
+  --card: rgb(255 255 255 / 0.2);
+  --card-foreground: #000;
+  --popover: #fff;
+  --popover-foreground: #000;
+  --primary: #6c40b5;
+  --primary-foreground: #fff;
+  --secondary: rgb(255 255 255 / 0.2);
+  --secondary-foreground: #000;
+  --muted: rgb(255 255 255 / 0.3);
+  --muted-foreground: #666;
+  --accent: rgb(255 255 255 / 0.4);
+  --accent-foreground: #000;
+  --destructive: #e5484d;
+  --border: rgb(255 255 255 / 0.5);
+  --input: rgb(255 255 255 / 0.2);
+  --ring: #6c40b5;
+
+  --heading: #6c40b5;
+  --glass-inset: rgb(255 255 255 / 0.2);
+  --glass-item: rgb(255 255 255 / 0.4);
+  --page-background: url('./assets/bg-light.png');
+  color-scheme: light;
+}
+
+:root.dark {
+  --background: #362a84;
+  --foreground: #fff;
+  --card: rgb(26 26 26 / 0.3);
+  --card-foreground: #fff;
+  --popover: #1f1647;
+  --popover-foreground: #fff;
+  --primary: #28124d;
+  --primary-foreground: #fff;
+  --secondary: rgb(26 26 26 / 0.3);
+  --secondary-foreground: #fff;
+  --muted: rgb(26 26 26 / 0.3);
+  --muted-foreground: rgb(255 255 255 / 0.6);
+  --accent: rgb(26 26 26 / 0.5);
+  --accent-foreground: #fff;
+  --destructive: #ff6369;
+  --border: transparent;
+  --input: rgb(26 26 26 / 0.3);
+  --ring: #fff;
+
+  --heading: #fff;
+  --glass-inset: rgb(26 26 26 / 0.3);
+  --glass-item: rgb(26 26 26 / 0.5);
+  --page-background: url('./assets/bg-dark.png');
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply min-h-dvh font-sans text-foreground antialiased;
+    background: var(--page-background) center / cover fixed;
+  }
+
+}
